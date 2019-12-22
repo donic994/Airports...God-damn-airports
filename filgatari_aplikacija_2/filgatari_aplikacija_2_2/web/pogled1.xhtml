@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{lokalizacija.odabraniJezik}">
+        <h:head>
+            <title>#{p["pogled1.naslov"]}</title>
+            <h:outputStylesheet library="css" name="bootstrap.css" />
+        </h:head>
+        <div class="container-fluid">
+            <h:body>
+                <h:form>
+                    <h:commandLink action="index" 
+                                   value="#{p['index.veza_pocetna']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled1" 
+                                   value="#{p['index.veza_pogled1']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled2" 
+                                   value="#{p['index.veza_pogled2']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled3" 
+                                   value="#{p['index.veza_pogled3']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled4" 
+                                   value="#{p['index.veza_pogled4']}" />
+                </h:form>
+                <h1>#{p["pogled1.naslov"]}</h1>
+
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>#{p["pogled1.labela_registracija"]}</h3>
+                            <h:form class="form-horizontal">
+                                <h:panelGroup class="form-group">
+
+                                    <h:outputLabel for="imeReg" value="#{p['pogled1.labela_ime']}"/>
+                                    <h:inputText id="imeReg" 
+                                                 value="#{pogled1.imeReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_ime']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>
+                                    <br/>
+                                    <h:outputLabel for="prezimeReg" value="#{p['pogled1.labela_prezime']}"/>
+                                    <h:inputText id="prezimeReg" 
+                                                 value="#{pogled1.prezimeReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_prezime']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>
+                                    <h:outputLabel for="korimeReg" value="#{p['pogled1.labela_korime']}"/>
+                                    <h:inputText id="korimeReg" 
+                                                 value="#{pogled1.korImeReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_korIme']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>
+                                    <h:outputLabel for="lozinkaReg" value="#{p['pogled1.labela_lozinka']}"/>
+                                    <h:inputText id="lozinkaReg" 
+                                                 value="#{pogled1.lozinkaReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_lozinka']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>
+                                    <br/>
+                                    <h:outputLabel for="emailReg" value="#{p['pogled1.labela_email']}"/>
+                                    <h:inputText id="emailReg" 
+                                                 value="#{pogled1.emailReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_email']}">
+                                        <f:validateRegex pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" />
+                                    </h:inputText>
+                                    <br/>
+
+                                    <h:commandButton 
+                                        value="#{p['pogled1.gumb_dodaj']}" 
+                                        action="#{pogled1.registracijaKorisnikaREST()}"
+                                        class="btn btn-block btn-primary">
+                                        <f:ajax execute="imeReg prezimeReg emailReg korimeReg lozinkaReg" render="poruka popisKorisnika imeRegVal prezimeRegVal"/>
+                                    </h:commandButton>
+                                    <h:message class="label label-danger" id="imeRegVal" for="imeReg"/><br/>
+                                    <h:message class="label label-danger" id="prezimeRegVal" for="prezimeReg"/>
+                                    <h:message class="label label-danger" id="emailRegVal" for="emailReg"/>
+                                    <h:message class="label label-danger" id="korimeVal" for="korimeReg"/>
+                                    <h:message class="label label-danger" id="lozinkaVal" for="lozinkaReg"/>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                        
+                       <div class="col-sm-6">
+                        <h3>#{p["pogled1.labela_prijava"]}</h3>
+                            <h:form class="form-horizontal">
+                                <h:panelGroup class="form-group">
+
+                                    <h:outputLabel for="korimePri" value="#{p['pogled1.labela_korime']}"/>
+                                    <h:inputText id="korimePri" 
+                                                 value="#{pogled1.korImeReg}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_korIme']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>
+                                    <h:outputLabel for="lozinkaPri" value="#{p['pogled1.labela_lozinka']}"/>
+                                    <h:inputText id="lozinkaPri" 
+                                                 value="#{pogled1.lozinkaPri}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_lozinka']}">
+                                        <f:validateLength minimum = "3" maximum = "20" />
+                                    </h:inputText>                                   
+                                    <br/>
+
+                                    <h:commandButton 
+                                        value="#{p['pogled1.gumb_prijavi']}" 
+                                        action="#{pogled1.prijavaKorisnikaREST()}"
+                                        class="btn btn-block btn-primary">
+                                        <f:ajax execute="korimePri lozinkaPri"/>
+                                    </h:commandButton>
+                                    <h:message class="label label-danger" id="korimeVal" for="korimePri"/>
+                                    <h:message class="label label-danger" id="lozinkaVal" for="lozinkaPri"/>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <h3>#{p["pogled1.labela_azuriranje"]}</h3>
+                            <h:form class="form-horizontal">
+                                <h:panelGroup class="form-group">
+
+                                    <h:outputLabel for="imeAzu" value="#{p['pogled1.labela_ime']}"/>
+                                    <h:inputText id="imeAzu" 
+                                                 value="#{pogled1.imeAzu}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_ime']}">
+                                        <f:validateLength minimum = "3" maximum = "9" />
+                                    </h:inputText>
+                                    <br/>
+                                    <h:outputLabel for="prezimeAzu" value="#{p['pogled1.labela_prezime']}"/>
+                                    <h:inputText id="prezimeAzu" 
+                                                 value="#{pogled1.prezimeAzu}"
+                                                 class="form-control"
+                                                 validatorMessage="#{p['pogled1.poruka_prezime']}">
+                                        <f:validateLength minimum = "3" maximum = "9" />
+                                    </h:inputText>
+                                    <br/>
+                                    <h:commandButton 
+                                        value="#{p['pogled1.gumb_azuriraj']}" 
+                                        action="#{pogled1.azuriranjeKorisnikaREST()}"
+                                        class="btn btn-block btn-primary">
+                                        <f:ajax execute="imeAzu prezimeAzu" render="poruka popisKorisnika imeAzuVal prezimeAzuVal"/>
+                                    </h:commandButton>
+                                    <h:message class="label label-danger" id="imeAzuVal" for="imeAzu"/><br/>
+                                    <h:message class="label label-danger" id="prezimeAzuVal" for="prezimeAzu"/>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <h:panelGroup id="poruka" layout="block" >
+                    <h:panelGroup rendered="#{pogled1.poruka ne null &amp;&amp; pogled1.poruka.length() != 0}">
+                        <div class="alert alert-warning">
+                            <h:outputLabel 
+                                value="#{pogled1.poruka}">
+                            </h:outputLabel>
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:form>
+                    <h:commandButton value="#{p['pogled1.gumb_prethodni']}" 
+                                     action="#{pogled1.prethodnaStranica()}"
+                                     class="btn btn-default btn-md">
+                        <f:ajax execute="popisKorisnika" render="popisKorisnika"/>
+                    </h:commandButton>
+                    <h:commandButton value="#{p['pogled1.gumb_sljedeci']}" 
+                                     action="#{pogled1.sljedecaStranica()}"
+                                     class="btn btn-default btn-md">
+                        <f:ajax execute="popisKorisnika" render="popisKorisnika"/>
+                    </h:commandButton>
+                    <h:panelGroup id="popisKorisnika">
+                        <h:dataTable value="#{pogled1.listaKorisnikaZaPrikaz}" 
+                                     class="table table-striped"
+                                     var="k"
+                                     rendered="#{pogled1.listaKorisnikaZaPrikaz.size() ne 0}">
+                            <h:column>
+                                <f:facet name="header">#{p['pogled1.labela_korime']}</f:facet>
+                                    #{k.kor_ime}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled1.labela_ime']}</f:facet>
+                                    #{k.ime}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled1.labela_prezime']}</f:facet>
+                                    #{k.prezime}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled1.labela_email']}</f:facet>
+                                    #{k.email_adresa}
+                            </h:column>
+                        </h:dataTable>
+
+                    </h:panelGroup>
+
+
+                </h:form>
+
+
+            </h:body>
+        </div>
+    </f:view>
+</html>
+

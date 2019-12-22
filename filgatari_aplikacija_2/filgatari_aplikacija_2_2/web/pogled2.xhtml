@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{lokalizacija.odabraniJezik}">
+        <h:head>
+            <title>#{p["pogled2.naslov"]}</title>
+            <h:outputStylesheet library="css" name="bootstrap.css" />
+        </h:head>
+        <div class="container-fluid">
+            <h:body>
+              <h:form>
+<h:commandLink action="index" 
+                                   value="#{p['index.veza_pocetna']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled1" 
+                                   value="#{p['index.veza_pogled1']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled2" 
+                                   value="#{p['index.veza_pogled2']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled3" 
+                                   value="#{p['index.veza_pogled3']}" />
+                                        &nbsp;
+                    <h:commandLink action="pogled4" 
+                                   value="#{p['index.veza_pogled4']}" />
+                </h:form>
+                <h1>#{p["pogled2.naslov"]}</h1>
+
+                <h:form>
+                    <h:panelGrid columns="3" class="table">
+
+                        <h:outputLabel for="naziv" value="#{p['pogled2.labela_naziv']}"/>
+                        <h:inputText id="naziv" 
+                                     value="#{pogled2.icao}"
+                                     class="form-control"/>
+                        <br/>
+                        <h:commandButton 
+                            value="#{p['pogled2.gumb_dodaj']}" 
+                            action="#{pogled2.dodajAerodromREST()}"
+                            class="btn btn-block btn-primary">
+                            <f:ajax execute="naziv" render="popisaerodrom poruka"/>
+                        </h:commandButton>
+
+                    </h:panelGrid>
+
+                    <br/>
+                    <h:panelGrid columns="5" class="table">
+                        <h:panelGroup>
+                            <h:outputLabel for="popisaerodrom" value="#{p['pogled2.labela_aerodromi']}"/>
+                            <h:selectOneListbox id="popisaerodrom" 
+                                                size="5" 
+                                                value="#{pogled2.odabraniAerodrom}"
+                                                class="form-control">
+                                <f:selectItems value="#{pogled2.popisAerodrom}" 
+                                               var="aero"
+                                               itemLabel="#{aero.labela}" 
+                                               itemValue="#{aero.vrijednost}" />
+                            </h:selectOneListbox>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:commandButton value="#{p['pogled2.gumb_status']}" 
+                                             action="#{pogled2.dajStatusAerodroma()}"
+                                             class="btn btn-block btn-info">
+                                <f:ajax execute="popisaerodrom" render="poruka statusAerodroma" />
+                            </h:commandButton>
+                            <br/>
+                            <h:outputText class="label label-info" id="statusAerodroma" value="#{pogled2.statusAerodroma}"  />
+
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:commandButton value="#{p['pogled2.gumb_obrisi']}" 
+                                             action="#{pogled2.obrisiAerodromREST()}"
+                                             class="btn btn-block btn-danger">
+                                <f:ajax execute="popisaerodrom" render="popisaerodrom poruka" />
+                            </h:commandButton>
+                            <h:commandButton value="#{p['pogled2.gumb_aktiviraj']}" 
+                                             action="#{pogled2.aktivirajAerodromREST()}"
+                                             class="btn btn-block btn-default">
+                                <f:ajax execute="popisaerodrom" render="popisaerodrom poruka" />
+                            </h:commandButton>                
+                            <h:commandButton value="#{p['pogled2.gumb_blokiraj']}" 
+                                             action="#{pogled2.blokirajAerodromREST()}"
+                                             class="btn btn-block btn-default">
+                                <f:ajax execute="popisaerodrom" render="popisaerodrom poruka" />
+                            </h:commandButton>
+                        </h:panelGroup> 
+
+                        <h:panelGroup>
+                            <h:commandButton value="#{p['pogled2.gumb_vazeciMeteo']}" 
+                                             action="#{pogled2.dohvatiVazeceMeteoSOAP()}"
+                                             class="btn btn-block btn-default">
+                                <f:ajax execute="popisaerodrom" render="meteo poruka" />
+                            </h:commandButton>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:commandButton value="#{p['pogled2.gumb_avioni']}" 
+                                             action="#{pogled2.preuzmiAvioneAerodromaREST()}"
+                                             class="btn btn-block btn-default">
+                                <f:ajax execute="popisaerodrom" render="popisAviona poruka" />
+                            </h:commandButton>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                    <h:panelGroup id="poruka" layout="block" >
+                        <h:panelGroup rendered="#{pogled2.poruka ne null}">
+                            <div class="alert alert-warning">
+                                <h:outputLabel 
+                                    value="#{pogled2.poruka}">
+                                </h:outputLabel>
+                            </div>
+
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+
+                <h:panelGroup id="meteo">
+                    <h:dataTable value="#{pogled2.meteoPodaci}" 
+                                 class="table table-striped"
+                                 var="meteo"
+                                 rendered="#{pogled2.meteoPodaci ne null}">
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_vrijeme']}</f:facet>
+                                #{meteo.weatherValue}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_temp']}</f:facet>
+                                #{meteo.temperatureValue}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_tempmin']}</f:facet>
+                                #{meteo.temperatureMin}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_tempmax']}</f:facet>
+                                #{meteo.temperatureMax}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_vlaga']}</f:facet>
+                                #{meteo.humidityValue}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_tlak']}</f:facet>
+                                #{meteo.pressureValue}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{p['pogled2.labela_vjetar']}</f:facet>
+                                #{meteo.windSpeedValue}
+                        </h:column>
+                    </h:dataTable> 
+                </h:panelGroup>
+
+                <div class="pre-scrollable">
+                    <h:panelGroup id="popisAviona">
+                        <h:dataTable value="#{pogled2.listaAviona}" 
+                                     class="table table-striped"
+                                     var="a"
+                                     rendered="#{pogled2.listaAviona.size() ne 0}">
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_id']}</f:facet>
+                                    #{a.icao24}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_callsign']}</f:facet>
+                                    #{a.callsign}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_polazni']}</f:facet>
+                                    #{a.estDepartureAirport}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_polazni_vrijeme']}</f:facet>
+                                    #{pogled2.pretvoriEpochUDatum(a.firstSeen)}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_odredisni']}</f:facet>
+                                    #{a.estArrivalAirport}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{p['pogled2.labela_odredisni_vrijeme']}</f:facet>
+                                    #{pogled2.pretvoriEpochUDatum(a.lastSeen)}
+                            </h:column>
+                        </h:dataTable> 
+                    </h:panelGroup>
+                </div>
+
+            </h:body>
+        </div>
+    </f:view>
+</html>
+
