@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{lokalizacija.odabraniJezik}">
+        <h:head>
+            <title>#{p["pogled3.naslov"]}</title>
+            <h:outputStylesheet library="css" name="bootstrap.css" />
+        </h:head>
+        <div class="container-fluid">
+            <h:body>
+                <h:form>
+                    <h:commandLink action="index" 
+                                   value="#{p['index.veza_pocetna']}" />
+                    &nbsp;
+                    <h:commandLink action="pogled3" 
+                                   value="#{p['index.veza_pogled3']}" />
+                </h:form>
+                <h1>#{p["pogled3.naslov"]}</h1>
+
+                <h:form>
+                    <h2>#{p["pogled3.naslov_posluzitelj"]}</h2>
+                    <h:commandButton value="#{p['pogled3.veza_pauza']}"
+                                     action="#{pogled3.posluziteljPauza()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton>   
+                    <h:commandButton value="#{p['pogled3.veza_kreni']}"
+                                     action="#{pogled3.posluziteljKreni()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton> 
+                    <h:commandButton value="#{p['pogled3.veza_pasivno']}"
+                                     action="#{pogled3.posluziteljPasivno()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton> 
+                    <h:commandButton value="#{p['pogled3.veza_aktivno']}"
+                                     action="#{pogled3.posluziteljAktivno()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton> 
+                    <h:commandButton value="#{p['pogled3.veza_stanje']}"
+                                     action="#{pogled3.posluziteljStanje()}"
+                                     class="btn btn-info">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton>
+                    <h:commandButton value="#{p['pogled3.veza_stani']}"
+                                     action="#{pogled3.posluziteljStani()}"
+                                     class="btn btn-danger">
+                        <f:ajax execute="odgovorPosluzitelj stanjePosluzitelj" render="odgovorPosluzitelj stanjePosluzitelj"/>
+                    </h:commandButton>
+
+
+                    <br/><br/>
+                    <h:panelGroup id="stanjePosluzitelj" layout="block" >
+                        <h:panelGroup rendered="#{pogled3.stanjePosluzitelj ne null}">
+                            <div class="alert alert-info">
+                                <h:outputLabel  value="#{pogled3.stanjePosluzitelj}"></h:outputLabel>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="odgovorPosluzitelj" layout="block">
+                        <h:panelGroup rendered="#{pogled3.odgovorPosluzitelj ne null}">
+                            <div class="alert alert-warning">
+                                <h:outputLabel value="#{pogled3.odgovorPosluzitelj}"></h:outputLabel>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+
+                <h:form>
+                    <h2>#{p["pogled3.naslov_grupa"]}</h2>
+                    <h:commandButton value="#{p['pogled3.veza_dodaj']}"
+                                     action="#{pogled3.grupaDodaj()}"
+                                     class="btn btn-default"
+                                     id="grupaDodaj">
+                        <f:ajax execute="odgovorGrupa stanjeGrupa" render="odgovorGrupa stanjeGrupa"/>
+                    </h:commandButton>                    
+                    <h:commandButton value="#{p['pogled3.veza_prekid']}"
+                                     action="#{pogled3.grupaPrekid()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorGrupa stanjeGrupa" render="odgovorGrupa stanjeGrupa"/>
+                    </h:commandButton> 
+                    <h:commandButton value="#{p['pogled3.veza_kreni']}"
+                                     action="#{pogled3.grupaKreni()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorGrupa stanjeGrupa" render="odgovorGrupa stanjeGrupa"/>
+                    </h:commandButton>
+                    <h:commandButton value="#{p['pogled3.veza_pauza']}"
+                                     action="#{pogled3.grupaPauza()}"
+                                     class="btn btn-default">
+                        <f:ajax execute="odgovorGrupa stanjeGrupa" render="odgovorGrupa stanjeGrupa"/>
+                    </h:commandButton> 
+                    <h:commandButton value="#{p['pogled3.veza_stanje']}"
+                                     action="#{pogled3.grupaStanje()}"
+                                     class="btn btn-info">
+                        <f:ajax execute="odgovorGrupa stanjeGrupa" render="odgovorGrupa stanjeGrupa"/>
+                    </h:commandButton> 
+
+                    <br/><br/>
+                    <h:panelGroup id="stanjeGrupa" layout="block" >
+                        <h:panelGroup rendered="#{pogled3.stanjeGrupa ne null}">
+                            <div class="alert alert-info">
+                                <h:outputLabel  value="#{pogled3.stanjeGrupa}"></h:outputLabel>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="odgovorGrupa" layout="block">
+                        <h:panelGroup rendered="#{pogled3.odgovorGrupa ne null}">
+                            <div class="alert alert-warning">
+                                <h:outputLabel value="#{pogled3.odgovorGrupa}"></h:outputLabel>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </h:form>
+            </h:body>
+        </div>
+    </f:view>
+</html>
+
