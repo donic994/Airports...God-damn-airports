@@ -1,0 +1,3 @@
+ciklus=2
+pocetak=48
+trajanje=12
